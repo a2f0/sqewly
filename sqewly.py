@@ -81,12 +81,9 @@ def main (argv):
         "--remove-files", "--force-local", "-czf", gzipoutputfile,
            mysqlfilename ], stderr=subprocess.PIPE)
         error2 = p2.stderr.read()
-        print "error2: " + error2
         if (len(error2)) > 0:
             action_error(error2)
             sys.exit(-1)
-        else:
-            print "no error"
 
     action_success()
 
@@ -101,6 +98,10 @@ def send_email(subject,body_append):
     s.sendmail(email_from, email_to, msg.as_string())
 
 def action_error(error_msg):
+
+    print "An error occurred:\n"
+    print error_msg + "\n" 
+
     subject = ("An error occured while backing up " + database_name + " on "
         + server_address)
     body = error_msg
