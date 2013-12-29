@@ -108,7 +108,7 @@ def action_error(error_msg):
     send_email(subject, body)
 
 def action_success():
-    if (report_on_success):
+    if (report_on_success == "1"):
         subject = (database_name + " was successfully backed up on " 
             + server_address)
         if (compress):
