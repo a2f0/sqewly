@@ -15,7 +15,7 @@ services:
     ports:
       - "3306:3306"
   sqewly:
-    command: ["/wait/wait-for-it.sh", "mysql:3306", "--", "/app/sqewly.py", "-c", "/app/sample.conf"] 
+    command: ["/wait/wait-for-it.sh", "mysql:3306", "--", "/app/sqewly.py", "-c", "/app/sample.conf"]
     build:
       context: .
       dockerfile: ./compose/Dockerfile
