@@ -1,8 +1,5 @@
-#!/usr/bin/python2
-#MySQL Database Backup Utility
-#Written 4/30/2013
-#Created by Dan Sullivan
-import ConfigParser
+#!/usr/bin/env python3
+import configparser
 import sys, getopt
 from time import gmtime, strftime
 import time
@@ -16,18 +13,18 @@ def main (argv):
     try:
         opts, args = getopt.getopt(argv, "hc:", ["ifile="])
     except getopt.GetoptError:
-        print 'usage: mysqlbackup.py -c <configfile>'
+        print('usage: mysqlbackup.py -c <configfile>')
         sys.exit(2)
     for opt, arg in opts:
         if opt == "-h":
-            print 'usage: mysqlbackup.py -c <configfile>'
+            print('usage: mysqlbackup.py -c <configfile>')
         elif opt in ("-c"):
             configfile = arg
     if configfile=='':
-        print 'usage: mysqlbackup.py -c <configfile>'
+        print('usage: mysqlbackup.py -c <configfile>')
         sys.exit(2)
 
-    config = ConfigParser.RawConfigParser()
+    config = configparser.ConfigParser()
     config.read(configfile)
     global server_address
     server_address = config.get( 'main' , 'server_address')
@@ -44,7 +41,7 @@ def main (argv):
     global email_from 
     email_from = config.get( 'main' , 'email_from')
     global max_age
-    max_age = config.get( 'main' , 'max_age')
+    max_age = config.getint( 'main' , 'max_age')
     global report_on_success
     report_on_success = config.get( 'main' , 'report_on_success')
     global compress
@@ -73,7 +70,7 @@ def main (argv):
     error = p.stderr.read()
 
     if (len(error)) > 0:
-        action_error(error)
+        action_error(str(error))
         sys.exit(-1)
 
     if (compress == "1"):
@@ -99,8 +96,8 @@ def send_email(subject,body_append):
 
 def action_error(error_msg):
 
-    print "An error occurred:\n"
-    print error_msg + "\n" 
+    print("An error occurred:\n")
+    print(error_msg + "\n")
 
     subject = ("An error occured while backing up " + database_name + " on "
         + server_address)
